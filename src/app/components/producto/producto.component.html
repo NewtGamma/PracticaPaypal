@@ -1,0 +1,35 @@
+<div class="contenedor-todo">
+  <h2 class="titulo-centrado">Catálogo de Productos</h2>
+
+  @if (error) {
+    <div class="error-message">
+      {{ error }}
+      <button (click)="cargarProductos()">Reintentar</button>
+    </div>
+  } @else {
+    <div class="productos">
+      @for (producto of productos; track producto.id) {
+        <div class="producto">
+          <div class="img-producto">
+            <!-- Verificación de ruta de imagen -->
+            @if (producto.imagen) {
+              <img [src]="producto.imagen" [alt]="producto.nombre" onerror="this.src='assets/default-product.png'">
+            } @else {
+              <img src="assets/default-product.png" [alt]="producto.nombre">
+            }
+          </div>
+          <div class="nombre-producto">
+            <h3>{{ producto.nombre }}</h3>
+          </div>
+          <div class="precio-producto">
+            <p>Precio: ${{ producto.precio | number }}</p>
+            <p>Disponibles: {{ producto.stock }}</p>
+          </div>
+          <button (click)="agregarAlCarrito(producto)" [disabled]="producto.stock <= 0">
+            {{ producto.stock <= 0 ? 'Agotado' : 'Agregar al carrito' }}
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>
